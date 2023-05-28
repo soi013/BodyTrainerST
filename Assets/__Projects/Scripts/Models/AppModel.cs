@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
 
@@ -26,11 +27,27 @@ namespace BodyTrainerST.Models
         private readonly ReactiveProperty<(Vector3 l, Vector3 r)> handAngles = new();
         private readonly ReactiveProperty<(Vector3 l, Vector3 r)> resultAngles = new();
 
+        private readonly IReadOnlyList<TrainingStage> stages = CreateStages();
+
+        private static IReadOnlyList<TrainingStage> CreateStages() =>
+            new TrainingStage[]
+            {
+                new() { Explain = "暗くなったら、左右にまっすぐ手を伸ばして水平にしてください。"},
+                new() { Explain = "次は真上に手を上げてください"},
+            };
+
+        private readonly ReactiveProperty<int> currentStageIndex = new(0);
+        private readonly IReadOnlyReactiveProperty<TrainingStage> currentStage;
+
         public AppModel()
         {
             Debug.Log($"{this.GetType().Name} ctor 00");
 
-            MainText = new(State, handAngles, resultAngles);
+            currentStage = currentStageIndex
+                .Select(i => stages[i])
+                .ToReadOnlyReactiveProperty();
+
+            MainText = new(State, currentStage, handAngles, resultAngles);
 
             State
                 .Pairwise()
@@ -54,6 +71,11 @@ namespace BodyTrainerST.Models
                 .Delay(TimeSpan.FromSeconds(5))
                 .Where(x => x == AppState.Dark)
                 .Subscribe(_ => ShowResult());
+
+            State
+                .Pairwise()
+                .Where(p => p.Previous == AppState.Result && p.Current == AppState.Explain)
+                .Subscribe(p => ChangeStage());
 
 
             IsEnabledFade = State
@@ -94,8 +116,19 @@ namespace BodyTrainerST.Models
 
         internal void NextMode()
         {
-            if (state.Value is AppState.Explain or AppState.Result)
+            if (state.Value is AppState.Explain)
+            {
                 state.Value = AppState.Dark;
+            }
+            else if (state.Value is AppState.Result)
+            {
+                state.Value = AppState.Explain;
+            }
+        }
+
+        private void ChangeStage()
+        {
+            currentStageIndex.Value++;
         }
 
         private void ShowResult()

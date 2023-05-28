@@ -9,31 +9,32 @@ namespace BodyTrainerST.Models
         public IReadOnlyReactiveProperty<string> Text { get; }
 
         public MainText(IReadOnlyReactiveProperty<AppState> state,
+            IObservable<TrainingStage> stage,
             IObservable<(Vector3 l, Vector3 r)> handAngles,
             IObservable<(Vector3 l, Vector3 r)> resultAngles)
         {
             var handAngleText = handAngles
-                .Select(h => $"Left = {h.l.x:000.0}, Right = {h.r.x:000.0}");
+                .Select(h => $"Now：\nLeft = {h.l.x:000.0}, Right = {h.r.x:000.0}");
 
             var resultAngleText = resultAngles
-                .Select(h => $"Left = {ToResultAngleText(h.l)}, Right = {ToResultAngleText(h.r)}")
+                .Select(h => $"Results：\nLeft = {ToResultAngleText(h.l)}, Right = {ToResultAngleText(h.r)}")
                 .ToReadOnlyReactiveProperty();
 
-            string explainText = $"手の角度が表示されています。\n暗くなったら、左右にまっすぐ手を伸ばして水平にしてください。";
-
-            var stateText = state
-                .Select(s =>
-                {
-                    return s == AppState.Explain
-                                            ? explainText
-                                            : $"結果\n{resultAngleText.Value}";
-                });
-
-            Text = Observable.CombineLatest(state, handAngleText, resultAngleText,
-                (s, h, r) => (s == AppState.Explain ? explainText : r) + '\n' + h)
+            Text = Observable.CombineLatest(state, stage, resultAngleText, handAngleText,
+                (s, g, r, h) => ConcateParamerterText(s, g, r) + '\n' + h)
                //.Do(t => Debug.Log(t))
                .ToReadOnlyReactiveProperty();
         }
+
+        private static string ConcateParamerterText(AppState state, TrainingStage stage, string resultText) =>
+            state switch
+            {
+                AppState.Explain => stage.Explain,
+                AppState.Result => resultText,
+                _ => "...処理中..."
+            };
+
+        //(state == AppState.Explain ? stage.Explain : resultText);
 
         private string ToResultAngleText(Vector3 angle)
         {
