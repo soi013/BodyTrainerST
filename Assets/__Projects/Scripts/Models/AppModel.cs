@@ -58,7 +58,7 @@ namespace BodyTrainerST.Models
                 .Select(i => stages[i])
                 .ToReadOnlyReactiveProperty();
 
-            resultZone = new(State, currentStage, resultAngles);
+            resultZone = new(currentStage, resultAngles);
 
             MainText = new(State, currentStage, handAngles, resultZone.CurrentResult);
 
