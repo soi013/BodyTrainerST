@@ -162,6 +162,7 @@ MonoBehaviour:
   trackingMode: 0
   faceTracking: 0
   lipsyncTracking: 0
+  lateLatching: 0
   foveationLevel: -1
   openMRC: 1
   foregroundLayerMask:
@@ -2303,7 +2304,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1872421877}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 50}
+  m_LocalPosition: {x: 0, y: 0, z: 90}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2526,7 +2527,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -25.2}
+  m_AnchoredPosition: {x: 0, y: -20.5}
   m_SizeDelta: {x: 200, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1994264594
@@ -2689,8 +2690,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -24.3}
-  m_SizeDelta: {x: 500, y: 100}
+  m_AnchoredPosition: {x: 0, y: -16.7}
+  m_SizeDelta: {x: 600, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2044247292
 MonoBehaviour:
@@ -2712,7 +2713,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u76EE\u6307\u305B\u767E\u7363\u306E\u738B\uFF01\n\u6B66\u4E95\u25CB\u306E\u30DC\u30C7\u30A3\u30DE\u30B9\u30BF\u30FC"
+  m_text: "\u76EE\u6307\u305B\u767E\u7363\u306E\u738B\uFF01\n\u6B66\u4E95\u25CB\u306E\u30DC\u30C7\u30A3\u30DE\u30B9\u30BF\u30FC\n\u3053\u306E\u30A2\u30D7\u30EA\u3067\u306F\u8996\u899A\u306B\u983C\u3089\u305A\u3001\u8EAB\u4F53\u3092\u30B3\u30F3\u30C8\u30ED\u30FC\u30EB\u3059\u308B\u305F\u3081\u306E\u30C8\u30EC\u30FC\u30CB\u30F3\u30B0\u3092\u3057\u307E\u3059\u3002"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2f2ef6fdc7ed2644a8c9d29dd68a914b, type: 2}
   m_sharedMaterial: {fileID: 1172613484193750048, guid: 2f2ef6fdc7ed2644a8c9d29dd68a914b, type: 2}
