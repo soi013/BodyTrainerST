@@ -39,6 +39,9 @@ namespace BodyTrainerST.Models
         private readonly ReactiveProperty<int> currentStageIndex = new(0);
         private readonly IReadOnlyReactiveProperty<TrainingStage> currentStage;
 
+        private ResultZone resultZone;
+
+
         public AppModel()
         {
             Debug.Log($"{this.GetType().Name} ctor 00");
@@ -47,7 +50,9 @@ namespace BodyTrainerST.Models
                 .Select(i => stages[i])
                 .ToReadOnlyReactiveProperty();
 
-            MainText = new(State, currentStage, handAngles, resultAngles);
+            resultZone = new(State, currentStage, resultAngles);
+
+            MainText = new(State, currentStage, handAngles, resultZone.CurrentResult);
 
             State
                 .Pairwise()
