@@ -1,4 +1,5 @@
-﻿using UniRx;
+﻿using System.Linq;
+using UniRx;
 using UnityEngine;
 
 namespace BodyTrainerST.Models
@@ -18,22 +19,30 @@ namespace BodyTrainerST.Models
 
 
             CurrentResult = resultAngles
-                .Select(h => $"Results：\nLeft = {ToResultAngleText(h.l)}, Right = {ToResultAngleText(h.r)}")
+                .Select(h => $"Results：\nLeft = {ToResultAngleText(h.l, currentStage.Value.TargetLeft)}, Right = {ToResultAngleText(h.r, currentStage.Value.TargetRight)}")
                 .ToReadOnlyReactiveProperty();
         }
 
 
-        private string ToResultAngleText(Vector3 angle)
+        private string ToResultAngleText(Vector3 angle, Vector3 target)
         {
-            string resultComment = Mathf.Abs(angle.x) switch
+            var diffV = angle - target;
+
+            float diff = new[] { diffV.x, diffV.y, diffV.z }
+            .Where(a => !float.IsNaN(a))
+            .Select(a => Mathf.Abs(a))
+            .Average();
+
+            string resultComment = diff switch
             {
+                > 20 => "いまいち",
                 > 5 => "おしい",
                 > 2 => "もうちょい",
                 > 1 => "すごい",
                 _ => "ロボット級"
             };
 
-            return $"{resultComment} ({angle.x:0.0})";
+            return $"{resultComment} ({angle.x:0.0}, {angle.y:0.0})";
         }
     }
 }

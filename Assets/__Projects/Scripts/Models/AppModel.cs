@@ -32,8 +32,16 @@ namespace BodyTrainerST.Models
         private static IReadOnlyList<TrainingStage> CreateStages() =>
             new TrainingStage[]
             {
-                new() { Explain = "暗くなったら、左右にまっすぐ手を伸ばして水平にしてください。"},
-                new() { Explain = "次は真上に手を上げてください"},
+                new() {
+                    Explain = "暗くなったら、左右にまっすぐ手を伸ばして水平にしてください。",
+                    TargetLeft = new(0,0,float.NaN),
+                    TargetRight = new(0,0,float.NaN),
+                },
+                new() {
+                    Explain = "次は真上に手を上げてください",
+                    TargetLeft = new(90,float.NaN,float.NaN),
+                    TargetRight = new(90,float.NaN,float.NaN),
+                },
             };
 
         private readonly ReactiveProperty<int> currentStageIndex = new(0);
