@@ -33,7 +33,7 @@ namespace BodyTrainerST.Models
             new TrainingStage[]
             {
                 new() {
-                    Explain = "暗くなったら、左右にまっすぐ手を伸ばして水平にしてください。",
+                    Explain = "暗くなったら、前にまっすぐ手を伸ばして水平にしてください。",
                     TargetLeft = new(0,0,float.NaN),
                     TargetRight = new(0,0,float.NaN),
                 },
@@ -42,12 +42,17 @@ namespace BodyTrainerST.Models
                     TargetLeft = new(90,float.NaN,float.NaN),
                     TargetRight = new(90,float.NaN,float.NaN),
                 },
+                new() {
+                    Explain = "最後に、左右にまっすぐ手を伸ばして水平にしてください。",
+                    TargetLeft = new(0,-90,float.NaN),
+                    TargetRight = new(0,90,float.NaN),
+                }
             };
 
         private readonly ReactiveProperty<int> currentStageIndex = new(0);
         private readonly IReadOnlyReactiveProperty<TrainingStage> currentStage;
 
-        private ResultZone resultZone;
+        private readonly ResultZone resultZone;
 
 
         public AppModel()
