@@ -146,7 +146,10 @@ namespace BodyTrainerST.Models
 
         private void ChangeStage()
         {
-            currentStageIndex.Value++;
+            if (currentStageIndex.Value >= stages.Count - 1)
+                currentStageIndex.Value = 0;
+            else
+                currentStageIndex.Value++;
         }
 
         private void ShowResult()
