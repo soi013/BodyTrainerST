@@ -11,7 +11,10 @@ namespace BodyTrainerST.Models
         public ResultZone(IReadOnlyReactiveProperty<TrainingStage> currentStage, ReactiveProperty<(Vector3 l, Vector3 r)> resultAngles)
         {
             CurrentResult = resultAngles
-                .Select(h => $"Results：\nLeft = {ToResultAngleText(h.l, currentStage.Value.TargetLeft)}, Right = {ToResultAngleText(h.r, currentStage.Value.TargetRight)}")
+                .Select(h =>
+@$"Results:
+Left = {ToResultAngleText(h.l, currentStage.Value.TargetLeft)}
+Right = {ToResultAngleText(h.r, currentStage.Value.TargetRight)}")
                 .ToReadOnlyReactiveProperty();
         }
 

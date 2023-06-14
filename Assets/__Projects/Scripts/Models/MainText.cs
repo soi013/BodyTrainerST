@@ -14,8 +14,10 @@ namespace BodyTrainerST.Models
             IObservable<string> resultAngleText)
         {
             var handAngleText = handAngles
-                .Select(h => $"Now：\nLeft = {h.l.x:000.0}, {h.l.y:000.0}, {h.l.z:000.0} Right = {h.r.x:000.0}");
-
+                .Select(h =>
+@$"Now: 
+Left = {h.l.x:000.0}, {h.l.y:000.0}, {h.l.z:000.0}
+Right = {h.r.x:000.0}, {h.r.y:000.0}, {h.r.z:000.0}");
 
             Text = Observable.CombineLatest(state, stage, resultAngleText, handAngleText,
                 (s, g, r, h) => ConcateParamerterText(s, g, r) + '\n' + h)
@@ -30,7 +32,5 @@ namespace BodyTrainerST.Models
                 AppState.Result => resultText,
                 _ => "...処理中..."
             };
-
-        //(state == AppState.Explain ? stage.Explain : resultText);    
     }
 }
